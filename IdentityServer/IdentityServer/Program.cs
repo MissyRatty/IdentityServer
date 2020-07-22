@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Security.Claims;
 
 namespace IdentityServer
 {
@@ -18,6 +19,16 @@ namespace IdentityServer
 
                 var user = new IdentityUser("rahmat");
                 userManager.CreateAsync(user: user, password: "password").GetAwaiter().GetResult();
+
+                //add custom claims for testing
+
+                //first claim to be added to the id_token
+                userManager.AddClaimAsync(user, new Claim("my.Claim", "tell.identityeSrverToGiveThisToClient"))
+                    .GetAwaiter().GetResult();
+
+                //this one to be added to the access_token
+                userManager.AddClaimAsync(user, new Claim("my.api.claim", "big.api.cookie"))
+                   .GetAwaiter().GetResult();
             }
 
             host.Run();

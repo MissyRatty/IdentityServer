@@ -30,7 +30,6 @@ namespace IdentityServer
 
             services.ConfigureApplicationCookie(config => 
             {
-
                 config.Cookie.Name = "IdentityServer.Cookie";
                 config.LoginPath = "/Authentication/Login";
             });

@@ -9,7 +9,16 @@ namespace IdentityServer
         public static IEnumerable<IdentityResource> GetIdentityResources() => new List<IdentityResource>() 
         { 
             new IdentityResources.OpenId(), //since this is set here as a resource that clients have access, we will have to add it to the list of allowed scopes: see line 59
-            new IdentityResources.Profile()
+            new IdentityResources.Profile(),
+            new IdentityResource()           // this is a possible scope that could be requested and it will have these claims
+            {
+               Name = "my.OwnDefinedScope",
+               //this claim will be added to the id_token
+               UserClaims = 
+                {
+                   "my.Claim"
+                }
+            }
         };
 
         /// <summary>
@@ -19,8 +28,10 @@ namespace IdentityServer
         /// <returns></returns>
         public static IEnumerable<ApiResource> GetApis() => new List<ApiResource>()
         {
+            //if you want to add a claim to your access_token, then you have to add it to your API resource like: apiResource("APIName", ["the claim type names as a string"])
             new ApiResource("ServerApi"),
-            new ApiResource("ClientApi")  //this was only added when we wanted the mvc client app to have access to both Apis
+            new ApiResource("ClientApi", new string[] { "my.api.claim" })  //this was only added when we wanted the mvc client app to have access to both Apis
+
         };
 
         /// <summary>
@@ -62,10 +73,14 @@ namespace IdentityServer
                      "ServerApi", 
                      "ClientApi", 
                      IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
-                     IdentityServer4.IdentityServerConstants.StandardScopes.Profile
+                     IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
+                     "my.OwnDefinedScope"
                  },  
                 RedirectUris = { "https://localhost:44392/signin-oidc" },
-                RequireConsent = false                                    //disabling the user-consent screen.
+                RequireConsent = false,                                    //disabling the user-consent screen.
+
+                //puts all the claims in the id_token, this could grow big
+                //AlwaysIncludeUserClaimsInIdToken = true
             }
         };
     }

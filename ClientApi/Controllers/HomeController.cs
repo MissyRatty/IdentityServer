@@ -22,7 +22,7 @@ namespace ClientApi.Controllers
             //this will get the well known endpoint that contains all the info (endpoints) we need to communicate/know with/about our identity server
             var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync("https://localhost:44338/");
 
-            //request access token
+            //request access_token
             var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = discoveryDocument.TokenEndpoint,
