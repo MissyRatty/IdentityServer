@@ -12,10 +12,10 @@ namespace MvcClientApp
         {
             services.AddAuthentication(config =>
             {
-                config.DefaultScheme = "Cookie";
+                config.DefaultScheme = "MvcClientCookie";
                 config.DefaultChallengeScheme = "oidc";
             })
-                .AddCookie("Cookie")
+                .AddCookie("MvcClientCookie")
                 .AddOpenIdConnect("oidc", config => //since its openIdconnect, this middleware will know how to get to the discovery document and know how to communicate through the background process
                 {
                     config.Authority = "https://localhost:44338/";
@@ -51,6 +51,9 @@ namespace MvcClientApp
                     config.Scope.Add("my.OwnDefinedScope");
                     config.Scope.Add("ServerApi");
                     config.Scope.Add("ClientApi");
+
+                    //add this to request for the refresh_token
+                    config.Scope.Add("offline_access");
                 });
 
             //added this line so we can make http client calls to other API end points

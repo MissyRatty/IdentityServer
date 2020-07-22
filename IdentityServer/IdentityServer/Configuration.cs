@@ -81,6 +81,10 @@ namespace IdentityServer
 
                 //puts all the claims in the id_token, this could grow big
                 //AlwaysIncludeUserClaimsInIdToken = true
+
+
+                //set this to true to be able to request for a refresh_token
+                AllowOfflineAccess = true
             }
         };
     }
