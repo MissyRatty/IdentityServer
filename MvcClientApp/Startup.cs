@@ -24,7 +24,7 @@ namespace MvcClientApp
                     config.SaveTokens = true;                 //save tokens in our browser cookies
                     config.ResponseType = "code";
 
-                    //config.UsePkce = true; //this is not needed as .net sets the default to true
+                    config.UsePkce = true; //this is not needed as .net sets the default to true
 
 
                     //configure user claims to map to my cookie correctly

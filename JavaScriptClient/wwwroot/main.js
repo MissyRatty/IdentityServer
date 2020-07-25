@@ -5,7 +5,8 @@
     authority: "https://localhost:44338/",
     client_id: "clientJs_id",
     redirect_uri: "https://localhost:44353/Home/SignIn",
-    response_type: "id_token token",
+    //if it was implicit flow, this would have been: id_token token
+    response_type: "code",
     scope: "openid my.OwnDefinedScope ServerApi ClientApi"
 };
 

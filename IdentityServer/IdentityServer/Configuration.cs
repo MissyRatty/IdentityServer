@@ -67,7 +67,7 @@ namespace IdentityServer
                 },
                 AllowedGrantTypes = GrantTypes.Code, //this is how we would be retrieving the access tokens
 
-                //set this to true to tel identity server to use the PKCE Auth Flow(Proof-Key-for-Code-Exchange)
+                //set this to true to tell identity server to use the PKCE Auth Flow(Proof-Key-for-Code-Exchange)
                 RequirePkce = true,
 
                 //this is the apis' that this client with id "clientMvc_id", is allowed/can have access to.If empty, the client will have no access to any apis.
@@ -94,13 +94,15 @@ namespace IdentityServer
              {
                  ClientId = "clientJs_id",
 
-                 AllowedGrantTypes = GrantTypes.Implicit,
+                 //add these to support PKCE
+                 AllowedGrantTypes = GrantTypes.Code,
+                 RequirePkce = true,
+                 RequireClientSecret = false,  //this is set to false for the PKCE flow as we would only need to supply the ClientId, Code Verifier and Auth Code to the token endpoint to request
+                                               //exchange for tokens  
 
                  RedirectUris = { "https://localhost:44353/Home/SignIn" },
                  AllowedCorsOrigins = { "https://localhost:44353" },     //add the js client app as a trusted origin so IdentityServer would allow it to communicate with it
-
-                 //RequirePkce = true,
-                 //RequireClientSecret = false,
+                 
                  AllowedScopes =
                  {
                      IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,

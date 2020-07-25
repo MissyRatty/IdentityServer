@@ -6,12 +6,17 @@
 
     //on the signinCallback, we tell it where to store our tokens (we want to store them in local storage instead of session)
     //by default, the tokens are stored in the session storage, but specify this to persist our tokens in the local storage instead
-    var userManager = new Oidc.UserManager({ userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }) });
+    var userManager = new Oidc.UserManager({
+        userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
+
+        //add this for PKCE flow:
+        response_mode: "query"      // this is to allow us to grab the auth code from the query string
+    });
 
     userManager.signinCallback().then(response => {
         console.log(response);
 
-        window.location.href = "/Home/Index";
+        window.location.href = "/Home/Index"; //I should probably let this redirect to a new page to make it clear
     });
 
 </script>
