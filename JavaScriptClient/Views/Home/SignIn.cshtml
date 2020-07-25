@@ -3,7 +3,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/oidc-client/1.10.1/oidc-client.min.js"></script>
 
 <script type="text/javascript">
-    var userManager = new Oidc.UserManager();
+
+    //on the signinCallback, we tell it where to store our tokens (we want to store them in local storage instead of session)
+    //by default, the tokens are stored in the session storage, but specify this to persist our tokens in the local storage instead
+    var userManager = new Oidc.UserManager({ userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }) });
+
     userManager.signinCallback().then(response => {
         console.log(response);
 

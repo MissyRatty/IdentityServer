@@ -104,10 +104,12 @@ namespace IdentityServer
                  AllowedScopes =
                  {
                      IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
-                     "ServerApi"
-                     //"ClientApi",
-                     //"my.OwnDefinedScope"
+                     "ServerApi",
+                     "ClientApi",
+                     "my.OwnDefinedScope"
                  },
+
+                 AccessTokenLifetime = 1,  // 1 second : default is 3600 secs/ 1 hr
                  AllowAccessTokensViaBrowser = true,
                  RequireConsent = false,
              }
