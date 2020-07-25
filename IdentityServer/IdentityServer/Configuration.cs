@@ -6,15 +6,15 @@ namespace IdentityServer
 {
     public static class Configuration
     {
-        public static IEnumerable<IdentityResource> GetIdentityResources() => new List<IdentityResource>() 
-        { 
+        public static IEnumerable<IdentityResource> GetIdentityResources() => new List<IdentityResource>()
+        {
             new IdentityResources.OpenId(), //since this is set here as a resource that clients have access, we will have to add it to the list of allowed scopes: see line 59
             new IdentityResources.Profile(),
             new IdentityResource()           // this is a possible scope that could be requested and it will have these claims
             {
                Name = "my.OwnDefinedScope",
                //this claim will be added to the id_token
-               UserClaims = 
+               UserClaims =
                 {
                    "my.Claim"
                 }
@@ -67,15 +67,18 @@ namespace IdentityServer
                 },
                 AllowedGrantTypes = GrantTypes.Code, //this is how we would be retrieving the access tokens
 
+                //set this to true to tel identity server to use the PKCE Auth Flow(Proof-Key-for-Code-Exchange)
+                RequirePkce = true,
+
                 //this is the apis' that this client with id "clientMvc_id", is allowed/can have access to.If empty, the client will have no access to any apis.
-                AllowedScopes = 
-                 { 
-                     "ServerApi", 
-                     "ClientApi", 
+                AllowedScopes =
+                 {
+                     "ServerApi",
+                     "ClientApi",
                      IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
                      IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
                      "my.OwnDefinedScope"
-                 },  
+                 },
                 RedirectUris = { "https://localhost:44392/signin-oidc" },
                 RequireConsent = false,                                    //disabling the user-consent screen.
 
@@ -85,7 +88,29 @@ namespace IdentityServer
 
                 //set this to true to be able to request for a refresh_token
                 AllowOfflineAccess = true
-            }
+            },
+
+             new Client
+             {
+                 ClientId = "clientJs_id",
+
+                 AllowedGrantTypes = GrantTypes.Implicit,
+
+                 RedirectUris = { "https://localhost:44353/Home/SignIn" },
+                 AllowedCorsOrigins = { "https://localhost:44353" },     //add the js client app as a trusted origin so IdentityServer would allow it to communicate with it
+
+                 //RequirePkce = true,
+                 //RequireClientSecret = false,
+                 AllowedScopes =
+                 {
+                     IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
+                     "ServerApi"
+                     //"ClientApi",
+                     //"my.OwnDefinedScope"
+                 },
+                 AllowAccessTokensViaBrowser = true,
+                 RequireConsent = false,
+             }
         };
     }
 }

@@ -17,6 +17,14 @@ namespace ServerApi
                     config.Audience = "ServerApi"; //identifying what resource is trying to pass this token for authentication, so we know that its not a random thing that's trying to validate a token, but rather its an API that we already know about.
                 });
 
+            //setup a CORS rule
+            //Allow all origins just for dev purposes
+            services.AddCors(config =>
+                config.AddPolicy("AllowAll",
+                    p => p.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()));
+
             services.AddControllers();
         }
 
@@ -26,6 +34,9 @@ namespace ServerApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //useCors Rule
+            app.UseCors("AllowAll");
 
             app.UseRouting();
 

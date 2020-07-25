@@ -24,6 +24,8 @@ namespace MvcClientApp
                     config.SaveTokens = true;                 //save tokens in our browser cookies
                     config.ResponseType = "code";
 
+                    //config.UsePkce = true; //this is not needed as .net sets the default to true
+
 
                     //configure user claims to map to my cookie correctly
                     //this is a list of action values you can use to select vals from the json user data and create/delete my desired claims
