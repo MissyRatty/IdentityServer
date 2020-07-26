@@ -114,6 +114,30 @@ namespace IdentityServer
                  AccessTokenLifetime = 1,  // 1 second : default is 3600 secs/ 1 hr
                  AllowAccessTokensViaBrowser = true,
                  RequireConsent = false,
+             },
+
+             new Client 
+             {
+                 ClientId = "angularApp_authOidc_lib",
+
+                 //add these to support PKCE
+                 AllowedGrantTypes = GrantTypes.Code,
+                 RequirePkce = true,
+                 RequireClientSecret = false,  //this is set to false for the PKCE flow as we would only need to supply the ClientId, Code Verifier and Auth Code to the token endpoint to request
+                                               //exchange for tokens  
+
+                 RedirectUris = { "http://localhost:4200" },           //this is the address for the angular app, redirecting to the root of the app for login
+                 PostLogoutRedirectUris = { "http://localhost:4200" },  // redirecting to the root of the app for logout
+                 AllowedCorsOrigins = { "http://localhost:4200" },     //add the angular client app as a trusted origin so IdentityServer would allow it to communicate with it
+                 
+                 AllowedScopes =
+                 {
+                     IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
+                     "ServerApi"
+                 },
+                 
+                 AllowAccessTokensViaBrowser = true,
+                 RequireConsent = false,
              }
         };
     }
