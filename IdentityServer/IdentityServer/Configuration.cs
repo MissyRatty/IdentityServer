@@ -126,8 +126,8 @@ namespace IdentityServer
                  RequireClientSecret = false,  //this is set to false for the PKCE flow as we would only need to supply the ClientId, Code Verifier and Auth Code to the token endpoint to request
                                                //exchange for tokens  
 
-                 RedirectUris = { "http://localhost:4200" },           //this is the address for the angular app, redirecting to the root of the app for login
-                 PostLogoutRedirectUris = { "http://localhost:4200" },  // redirecting to the root of the app for logout
+                 RedirectUris = { "http://localhost:4200" },           //this is an address in the angular app where we would want our tokens to be sent to from ID4
+                 PostLogoutRedirectUris = { "http://localhost:4200" },  // a uri in the angular app where ID4 can redirect the user to once they are logged out
                  AllowedCorsOrigins = { "http://localhost:4200" },     //add the angular client app as a trusted origin so IdentityServer would allow it to communicate with it
                  
                  AllowedScopes =
@@ -136,6 +136,32 @@ namespace IdentityServer
                      "ServerApi"
                  },
                  
+                 AllowAccessTokensViaBrowser = true,
+                 RequireConsent = false,
+             },
+
+             new Client
+             {
+                 ClientId = "angularApp_oidc_client_lib",
+
+                 //add these to support PKCE
+                 AllowedGrantTypes = GrantTypes.Code,
+                 RequirePkce = true,
+                 RequireClientSecret = false,  //this is set to false for the PKCE flow as we would only need to supply the ClientId, Code Verifier and Auth Code to the token endpoint to request
+                                               //exchange for tokens  
+
+                 RedirectUris = { "http://localhost:4200/auth-callback" },           //this is an address in the angular app where we would want our tokens to be sent to from ID4
+                 PostLogoutRedirectUris = { "http://localhost:4200/logout" },  // a uri in the angular app where ID4 can redirect the user to once they are logged out
+                 AllowedCorsOrigins = { "http://localhost:4200" },     //add the angular client app as a trusted origin so IdentityServer would allow it to communicate with it
+                 
+                 AllowedScopes =
+                 {
+                     IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
+                     IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
+                     "ServerApi"
+                 },
+
+                 //AccessTokenLifetime = 1,  // 1 second just to test refreshing of tokens
                  AllowAccessTokensViaBrowser = true,
                  RequireConsent = false,
              }

@@ -28,7 +28,7 @@ namespace IdentityServer
                 .AddEntityFrameworkStores<IdentityServerDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(config => 
+            services.ConfigureApplicationCookie(config =>
             {
                 config.Cookie.Name = "IdentityServer.Cookie";
                 config.LoginPath = "/Authentication/Login";
